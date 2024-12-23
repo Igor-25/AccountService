@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AccountStore.API</name>
+    </assembly>
+    <members>
+        <member name="M:AccountStore.API.Controllers.AccountsController.GetAccounts">
+            <summary>
+            Поиск всех аккаунтов
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AccountStore.API.Controllers.AccountsController.GetAccountById(System.Guid)">
+            <summary>
+            Поиск аккаунта по Id
+            </summary>
+            <param name="id">Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:AccountStore.API.Controllers.AccountsController.CreateAccount(AccountStore.API.Contracts.AccountsRequest)">
+            <summary>
+            Создание аккаунта
+            </summary>
+            <remarks>
+            Пример запроса:
+                
+                {
+                   "lastName" : "",
+                   "firstName" : "",
+                   "patronymic" : "",
+                   "dateOfBbirth" : "",
+                   "passportNumber" : "",
+                   "phoneNumber" : "",
+                   "email" : "",
+                   "address" : ""
+                }
+            
+            </remarks>
+            <param name="request">Аккаунт</param>
+            <returns></returns>
+        </member>
+        <member name="M:AccountStore.API.Controllers.AccountsController.AccountFind(AccountStore.API.Contracts.AccountsRequest)">
+            <summary>
+            Поиск аккаунта
+            </summary>
+            <remarks>
+            Пример запроса (находит всех):
+                
+                {
+                   "lastName" : "",
+                   "firstName" : "",
+                   "patronymic" : "",
+                   "dateOfBbirth" : "",
+                   "passportNumber" : "",
+                   "phoneNumber" : "",
+                   "email" : "",
+                   "address" : ""
+                }
+            
+            </remarks>
+            <param name="request">Аккаунт</param>
+            <returns></returns>
+        </member>
+        <member name="M:AccountStore.API.Controllers.AccountsController.DeleteAccount(System.Guid)">
+            <summary>
+            Удаление аккаунта по Id
+            </summary>
+            <param name="id">Id</param>
+            <returns></returns>
+        </member>
+        <member name="M:AccountStore.API.Controllers.AccountsController.DeleteAll">
+            <summary>
+            Удаление всех аккаунтов
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

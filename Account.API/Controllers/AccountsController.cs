@@ -17,7 +17,8 @@ using static System.Net.WebRequestMethods;
 namespace AccountStore.API.Controllers
 {
 
-    [Route("api/[controller]/[action]")]
+    //[Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
@@ -28,11 +29,14 @@ namespace AccountStore.API.Controllers
         {
             _accountsService = accountService;
             _accountValidation = accountValidation;
-            
+
         }
-
-
-        [HttpGet]
+        
+        /// <summary>
+        /// Поиск всех аккаунтов
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Get")]
         public async Task<ActionResult<List<AccountsResponce>>> GetAccounts()
         {
             var accounts = await _accountsService.GetAllAccounts();
@@ -44,6 +48,11 @@ namespace AccountStore.API.Controllers
         }
 
 
+        /// <summary>
+        /// Поиск аккаунта по Id
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns></returns>
         [HttpGet("(id:guid)")]
         public async Task<ActionResult<Guid>> GetAccountById(Guid id)
         //public async Task<Guid> Get(Guid id)
@@ -62,8 +71,29 @@ namespace AccountStore.API.Controllers
             return BadRequest($"Нет такого аккаунта {id}");
         }
 
+     
 
-        [HttpPost]
+        /// <summary>
+        /// Создание аккаунта
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса:
+        ///     
+        ///     {
+        ///        "lastName" : "",
+        ///        "firstName" : "",
+        ///        "patronymic" : "",
+        ///        "dateOfBbirth" : "",
+        ///        "passportNumber" : "",
+        ///        "phoneNumber" : "",
+        ///        "email" : "",
+        ///        "address" : ""
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="request">Аккаунт</param>
+        /// <returns></returns>
+        [HttpPost("Create")]
         public async Task<ActionResult<Guid>> CreateAccount([FromBody] AccountsRequest request)
         {
             HttpContext httpcontext = HttpContext;
@@ -79,12 +109,12 @@ namespace AccountStore.API.Controllers
 
             if (!result) return BadRequest("Валидация не прошла");
 
-            
+
             var account = Account.Create(Guid.NewGuid(), request.LastName, request.FirstName, request.Patronymic, request.DateOfBbirth, request.PassportNumber, request.PhoneNumber, request.Email, request.Address).account;
 
             var userMobele = await _accountsService.GetByPhoneNumber(account);
 
-            
+
             if (userMobele != null)
             {
                 return BadRequest($"Есть уже аккаунт с таким номером телефона {request.PhoneNumber}");
@@ -98,14 +128,33 @@ namespace AccountStore.API.Controllers
                 return BadRequest($"Есть уже аккаунт с такой почтой {request.Email}");
             }
 
-           
+
             var bookId = await _accountsService.CreateAccount(account);
 
             return Ok($"Аккаунт добавлен: {bookId}");
         }
 
-
-        [HttpPost]
+        /// <summary>
+        /// Поиск аккаунта
+        /// </summary>
+        /// <remarks>
+        /// Пример запроса (находит всех):
+        ///     
+        ///     {
+        ///        "lastName" : "",
+        ///        "firstName" : "",
+        ///        "patronymic" : "",
+        ///        "dateOfBbirth" : "",
+        ///        "passportNumber" : "",
+        ///        "phoneNumber" : "",
+        ///        "email" : "",
+        ///        "address" : ""
+        ///     }
+        /// 
+        /// </remarks>
+        /// <param name="request">Аккаунт</param>
+        /// <returns></returns>
+        [HttpPost("Find")]
         public async Task<ActionResult<List<string>>> AccountFind([FromBody] AccountsRequest request)
         {
             var account = Account.Create(Guid.NewGuid(), request.LastName, request.FirstName, request.Patronymic, request.DateOfBbirth, request.PassportNumber, request.PhoneNumber, request.Email, request.Address).account;
@@ -124,6 +173,11 @@ namespace AccountStore.API.Controllers
 
         }
 
+        /// <summary>
+        /// Удаление аккаунта по Id
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns></returns>
         [HttpDelete("(id:guid)")]
         public async Task<ActionResult<Guid>> DeleteAccount(Guid id)
         {
@@ -132,7 +186,11 @@ namespace AccountStore.API.Controllers
         }
 
 
-        [HttpDelete]
+        /// <summary>
+        /// Удаление всех аккаунтов
+        /// </summary>
+        /// <returns></returns>
+        [HttpDelete("Delete")]
         public async Task<ActionResult<string>> DeleteAll()
         {
             return Ok(await _accountsService.DeleteAll());

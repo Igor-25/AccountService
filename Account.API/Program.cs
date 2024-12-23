@@ -19,6 +19,13 @@ namespace AccountStore.API
             builder.Services.AddSwaggerGen(c =>
             {
                 c.OperationFilter<CustomHeaderParameter>();
+
+                var basePath = AppContext.BaseDirectory;
+
+                var xmlPath = Path.Combine(basePath, "AccountAPI.xml");
+
+                c.IncludeXmlComments(xmlPath);
+
             });
 
 
