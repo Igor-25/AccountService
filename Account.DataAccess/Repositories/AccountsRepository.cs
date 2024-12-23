@@ -37,7 +37,8 @@ namespace AccountStore.DataAccess.Repositories
         public async Task<Account> GetById(Guid id)
         {
             var entity = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == id);
-
+            
+            if (entity == null) return null;
             var accounts = Account.Create(entity.Id, entity.LastName, entity.FirstName, entity.Patronymic, entity.DateOfBbirth, entity.PassportNumber, entity.PhoneNumber, entity.Email, entity.Address).account;
 
             return accounts;
@@ -125,12 +126,27 @@ namespace AccountStore.DataAccess.Repositories
             return accountEntity.Id;
         }
 
-
         public async Task<Guid> Delete(Guid id)
         {
-            await _context.Accounts
+            //нет аккаунты, то выводит ОК и носмер введенного аккаунта
+
+            //var entity = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == id);
+            //if (entity == null)
+            //{ }
+            
+            int countFind = await _context.Accounts
                 .Where(b => b.Id == id)
                 .ExecuteDeleteAsync();
+
+            if (countFind == 0)
+            {
+                id = Guid.Empty;
+                //string guid = Guid.NewGuid().ToString();
+                //Guid guid = Guid.NewGuid().ToString();
+                //return Guid.NewGuid("00000000-0000-0000-0000-000000000000").ToString;
+                //return Guid.Empty;
+                return id;
+            }
 
             return id;
 

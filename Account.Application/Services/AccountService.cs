@@ -54,6 +54,7 @@ namespace AccountStore.Application.Services
 
         public async Task<Guid> DeleteAccount(Guid id)
         {
+            //нет аккаунты, то выводит ОК и носмер введенного аккаунта
             return await _accountsRepository.Delete(id);
         }
 

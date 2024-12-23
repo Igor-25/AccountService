@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using System;
 using System.Net;
+using System.Security.Principal;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
 using static System.Net.WebRequestMethods;
 
@@ -31,7 +32,7 @@ namespace AccountStore.API.Controllers
             _accountValidation = accountValidation;
 
         }
-        
+
         /// <summary>
         /// Поиск всех аккаунтов
         /// </summary>
@@ -54,24 +55,27 @@ namespace AccountStore.API.Controllers
         /// <param name="id">Id</param>
         /// <returns></returns>
         [HttpGet("(id:guid)")]
-        public async Task<ActionResult<Guid>> GetAccountById(Guid id)
+        public async Task<ActionResult<Account>> GetAccountById(Guid id)
+        //public async Task<ActionResult<Guid>> GetAccountById(Guid id)
         //public async Task<Guid> Get(Guid id)
         {
             //var userId = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == id);
 
-            var accounts = await _accountsService.GetAccById(id);
+            var account = await _accountsService.GetAccById(id);
 
             //var accountEntities = await _context.Accounts.ToListAsync();
             //var userMobele = accountEntities.FirstOrDefault(u => u.PhoneNumber == request.PhoneNumber);
 
-            if (accounts != null)
+            if (account != null)
             {
-                return Ok($"Есть такой аккаунт {id}");
+                //return Ok($"Есть такой аккаунт {id}");
+                return new ObjectResult(account);
+
             }
             return BadRequest($"Нет такого аккаунта {id}");
         }
 
-     
+
 
         /// <summary>
         /// Создание аккаунта
@@ -181,8 +185,14 @@ namespace AccountStore.API.Controllers
         [HttpDelete("(id:guid)")]
         public async Task<ActionResult<Guid>> DeleteAccount(Guid id)
         {
-            return Ok(await _accountsService.DeleteAccount(id));
+            Guid idOut =await _accountsService.DeleteAccount(id);
 
+            if (idOut == Guid.Empty)
+            {
+                return BadRequest($"Нет такого Id");
+            }
+
+            return Ok($"Удален аккаунт {idOut}");
         }
 
 
