@@ -67,27 +67,28 @@ namespace AccountStore.DataAccess.Repositories
 
             var accountFind = await _context.Accounts.ToListAsync();
 
-            if (!string.IsNullOrEmpty(account.LastName) && (account.LastName != "string"))
+            //if (!string.IsNullOrEmpty(account.LastName) && (account.LastName != "string"))
+                if (!string.IsNullOrEmpty(account.LastName))
             {
                 accountFind = accountFind.Where(p => p.LastName == account.LastName).ToList();
             }
 
-            if (!string.IsNullOrEmpty(account.FirstName) && (account.FirstName != "string"))
+            if (!string.IsNullOrEmpty(account.FirstName))
             {
                 accountFind = accountFind.Where(p => p.FirstName == account.FirstName).ToList();
             }
 
-            if (!string.IsNullOrEmpty(account.Patronymic) && (account.Patronymic != "string"))
+            if (!string.IsNullOrEmpty(account.Patronymic))
             {
                 accountFind = accountFind.Where(p => p.Patronymic == account.Patronymic).ToList();
             }
 
-            if (!string.IsNullOrEmpty(account.PhoneNumber) && (account.PhoneNumber != "string"))
+            if (!string.IsNullOrEmpty(account.PhoneNumber))
             {
                 accountFind = accountFind.Where(p => p.PhoneNumber == account.PhoneNumber).ToList();
             }
 
-            if (!string.IsNullOrEmpty(account.Email) && (account.Email != "string"))
+            if (!string.IsNullOrEmpty(account.Email))
             {
                 accountFind = accountFind.Where(p => p.Email == account.Email).ToList();
             }

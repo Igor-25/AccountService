@@ -56,21 +56,14 @@ namespace AccountStore.API.Controllers
         /// <returns></returns>
         [HttpGet("(id:guid)")]
         public async Task<ActionResult<Account>> GetAccountById(Guid id)
-        //public async Task<ActionResult<Guid>> GetAccountById(Guid id)
-        //public async Task<Guid> Get(Guid id)
         {
-            //var userId = await _context.Accounts.FirstOrDefaultAsync(u => u.Id == id);
-
+        
             var account = await _accountsService.GetAccById(id);
-
-            //var accountEntities = await _context.Accounts.ToListAsync();
-            //var userMobele = accountEntities.FirstOrDefault(u => u.PhoneNumber == request.PhoneNumber);
 
             if (account != null)
             {
                 //return Ok($"Есть такой аккаунт {id}");
                 return new ObjectResult(account);
-
             }
             return BadRequest($"Нет такого аккаунта {id}");
         }
@@ -84,14 +77,14 @@ namespace AccountStore.API.Controllers
         /// Пример запроса:
         ///     
         ///     {
-        ///        "lastName" : "",
-        ///        "firstName" : "",
-        ///        "patronymic" : "",
-        ///        "dateOfBbirth" : "",
-        ///        "passportNumber" : "",
-        ///        "phoneNumber" : "",
-        ///        "email" : "",
-        ///        "address" : ""
+        ///        "lastName": "",
+        ///        "firstName": "",
+        ///        "patronymic": "",
+        ///        "dateOfBbirth": "",
+        ///        "passportNumber": "",
+        ///        "phoneNumber": "",
+        ///        "email": "",
+        ///        "address": ""
         ///     }
         /// 
         /// </remarks>
@@ -142,40 +135,76 @@ namespace AccountStore.API.Controllers
         /// Поиск аккаунта
         /// </summary>
         /// <remarks>
-        /// Пример запроса (находит всех):
+        /// Пример запроса:
         ///     
         ///     {
-        ///        "lastName" : "",
-        ///        "firstName" : "",
-        ///        "patronymic" : "",
-        ///        "dateOfBbirth" : "",
-        ///        "passportNumber" : "",
-        ///        "phoneNumber" : "",
-        ///        "email" : "",
-        ///        "address" : ""
+        ///        "lastName": "",
+        ///        "firstName": "",
+        ///        "patronymic": "",
+        ///        "phoneNumber": "",
+        ///        "email": ""
         ///     }
         /// 
         /// </remarks>
-        /// <param name="request">Аккаунт</param>
+        /// <param name="dtoFind">Данные для поиска</param>
         /// <returns></returns>
         [HttpPost("Find")]
-        public async Task<ActionResult<List<string>>> AccountFind([FromBody] AccountsRequest request)
+        public async Task<ActionResult<List<string>>> AccountFind([FromBody] DTOFind dtoFind)
         {
-            var account = Account.Create(Guid.NewGuid(), request.LastName, request.FirstName, request.Patronymic, request.DateOfBbirth, request.PassportNumber, request.PhoneNumber, request.Email, request.Address).account;
-
+            var account = Account.Create(Guid.NewGuid(), dtoFind.LastName, dtoFind.FirstName, dtoFind.Patronymic, "", "", dtoFind.PhoneNumber, dtoFind.Email, "").account;
             var accountFind = await _accountsService.AccountFind(account);
-
-
             if (accountFind.Count == 0)
             {
                 return new ObjectResult(accountFind);
             }
-
             //return Ok($"Есть такой аккаунт {request.LastName}, {request.FirstName}, {request.Patronymic}, {request.PhoneNumber}, {request.Email}");
-
             return new ObjectResult(accountFind);
 
+
+
+            //var accountDto = DTOFind.Create(dtoFind.LastName, dtoFind.FirstName, dtoFind.Patronymic, dtoFind.PhoneNumber, dtoFind.Email).dtoFind;
+            //var accountFind = await _accountsService.AccountFind(accountDto);
+            //if (accountFind.Count == 0)
+            //{
+            //    return new ObjectResult(accountFind);
+            //}
+            ////return Ok($"Есть такой аккаунт {request.LastName}, {request.FirstName}, {request.Patronymic}, {request.PhoneNumber}, {request.Email}");
+            //return new ObjectResult(accountFind);
         }
+
+
+        ///// <summary>
+        ///// Поиск аккаунта
+        ///// </summary>
+        ///// <remarks>
+        ///// Пример запроса (находит всех):
+        /////     
+        /////     {
+        /////        "lastName" : "",
+        /////        "firstName" : "",
+        /////        "patronymic" : "",
+        /////        "dateOfBbirth" : "",
+        /////        "passportNumber" : "",
+        /////        "phoneNumber" : "",
+        /////        "email" : "",
+        /////        "address" : ""
+        /////     }
+        ///// 
+        ///// </remarks>
+        ///// <param name="request">Аккаунт</param>
+        ///// <returns></returns>
+        //[HttpPost("Find")]
+        //public async Task<ActionResult<List<string>>> AccountFind([FromBody] AccountsRequest request)
+        //{
+        //    var account = Account.Create(Guid.NewGuid(), request.LastName, request.FirstName, request.Patronymic, request.DateOfBbirth, request.PassportNumber, request.PhoneNumber, request.Email, request.Address).account;
+        //    var accountFind = await _accountsService.AccountFind(account);
+        //    if (accountFind.Count == 0)
+        //    {
+        //        return new ObjectResult(accountFind);
+        //    }
+        //    //return Ok($"Есть такой аккаунт {request.LastName}, {request.FirstName}, {request.Patronymic}, {request.PhoneNumber}, {request.Email}");
+        //    return new ObjectResult(accountFind);
+        //}
 
         /// <summary>
         /// Удаление аккаунта по Id

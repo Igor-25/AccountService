@@ -25,40 +25,37 @@
             Пример запроса:
                 
                 {
-                   "lastName" : "",
-                   "firstName" : "",
-                   "patronymic" : "",
-                   "dateOfBbirth" : "",
-                   "passportNumber" : "",
-                   "phoneNumber" : "",
-                   "email" : "",
-                   "address" : ""
+                   "lastName": "",
+                   "firstName": "",
+                   "patronymic": "",
+                   "dateOfBbirth": "",
+                   "passportNumber": "",
+                   "phoneNumber": "",
+                   "email": "",
+                   "address": ""
                 }
             
             </remarks>
             <param name="request">Аккаунт</param>
             <returns></returns>
         </member>
-        <member name="M:AccountStore.API.Controllers.AccountsController.AccountFind(AccountStore.API.Contracts.AccountsRequest)">
+        <member name="M:AccountStore.API.Controllers.AccountsController.AccountFind(AccountStore.Core.Models.DTOFind)">
             <summary>
             Поиск аккаунта
             </summary>
             <remarks>
-            Пример запроса (находит всех):
+            Пример запроса:
                 
                 {
-                   "lastName" : "",
-                   "firstName" : "",
-                   "patronymic" : "",
-                   "dateOfBbirth" : "",
-                   "passportNumber" : "",
-                   "phoneNumber" : "",
-                   "email" : "",
-                   "address" : ""
+                   "lastName": "",
+                   "firstName": "",
+                   "patronymic": "",
+                   "phoneNumber": "",
+                   "email": ""
                 }
             
             </remarks>
-            <param name="request">Аккаунт</param>
+            <param name="dtoFind">Данные для поиска</param>
             <returns></returns>
         </member>
         <member name="M:AccountStore.API.Controllers.AccountsController.DeleteAccount(System.Guid)">
