@@ -47,11 +47,11 @@
             Пример запроса:
                 
                 {
-                   "lastName": "",
-                   "firstName": "",
-                   "patronymic": "",
-                   "phoneNumber": "",
-                   "email": ""
+                   "lastName": "Иванов",
+                   "firstName": "Петр",
+                   "patronymic": "Петрович",
+                   "phoneNumber": "71111111111",
+                   "email": "mail1@ya.ru"
                 }
             
             </remarks>

@@ -138,17 +138,18 @@ namespace AccountStore.API.Controllers
         /// Пример запроса:
         ///     
         ///     {
-        ///        "lastName": "",
-        ///        "firstName": "",
-        ///        "patronymic": "",
-        ///        "phoneNumber": "",
-        ///        "email": ""
+        ///        "lastName": "Иванов",
+        ///        "firstName": "Петр",
+        ///        "patronymic": "Петрович",
+        ///        "phoneNumber": "71111111111",
+        ///        "email": "mail1@ya.ru"
         ///     }
         /// 
         /// </remarks>
         /// <param name="dtoFind">Данные для поиска</param>
         /// <returns></returns>
         [HttpPost("Find")]
+        //public async Task<ActionResult<List<string>>> AccountFind([FromForm] DTOFind dtoFind)
         public async Task<ActionResult<List<string>>> AccountFind([FromBody] DTOFind dtoFind)
         {
             var account = Account.Create(Guid.NewGuid(), dtoFind.LastName, dtoFind.FirstName, dtoFind.Patronymic, "", "", dtoFind.PhoneNumber, dtoFind.Email, "").account;
