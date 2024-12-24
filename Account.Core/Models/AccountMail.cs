@@ -29,9 +29,14 @@ namespace AccountStore.Core.Models
         public string FirstName { get; set; } = string.Empty;
         public string Patronymic { get; set; } = string.Empty;
         public string DateOfBbirth { get; set; } = string.Empty;
-        public string PassportNumber { get; set; } = string.Empty;
-        public string PhoneNumber { get; set; } = string.Empty;
         
+        [RegularExpression(@"^\d{4}\s\d{6}$")]
+        public string PassportNumber { get; set; } = string.Empty;
+        
+        [RegularExpression(@"^[7]\d{10}$")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required]
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
@@ -46,6 +51,7 @@ namespace AccountStore.Core.Models
 
             var results = new List<ValidationResult>();
             var context = new ValidationContext(account);
+            
             if (Validator.TryValidateObject(account, context, results, true))
                 return true;
             else

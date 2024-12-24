@@ -28,10 +28,14 @@ namespace AccountStore.Core.Models
         public string Patronymic { get; set; } = string.Empty;
         public string DateOfBbirth { get; set; } = string.Empty;
 
+        [RegularExpression(@"^\d{4}\s\d{6}$")]
         public string PassportNumber { get; set; } = string.Empty;
 
+        [Required]
         [RegularExpression(@"^[7]\d{10}$")]
         public string PhoneNumber { get; set; } = string.Empty;
+        
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
 

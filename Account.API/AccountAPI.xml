@@ -25,14 +25,14 @@
             Пример запроса:
                 
                 {
-                   "lastName": "",
-                   "firstName": "",
-                   "patronymic": "",
-                   "dateOfBbirth": "",
-                   "passportNumber": "",
-                   "phoneNumber": "",
-                   "email": "",
-                   "address": ""
+                   "lastName": "Степашин",
+                   "firstName": "Степан",
+                   "patronymic": "Олегович",
+                   "dateOfBbirth": "12/01/2001",
+                   "passportNumber": "4444 666666",
+                   "phoneNumber": "71234567890",
+                   "email": "mail9@yaru",
+                   "address": "Тула"
                 }
             
             </remarks>

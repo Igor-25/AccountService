@@ -12,14 +12,6 @@ namespace AccountStore.Core.Models
     {
         //4. Поля, по которым можно искать пользователя: фамилия, имя, отчество, телефон, электронная почта.
         //Должен быть функционал поиска по одному, либо по нескольким полям из этого списка.
-        //private DTOFind(string lastName, string firstName, string patronymic, string phoneNumber, string email)
-        //{
-        //    LastName = lastName;
-        //    FirstName = firstName;
-        //    Patronymic = patronymic;
-        //    PhoneNumber = phoneNumber;
-        //    Email = email;
-        //}
 
         [DefaultValue("Иванов")]
         public string LastName { get; set; } = string.Empty;
@@ -33,15 +25,6 @@ namespace AccountStore.Core.Models
         public string Email { get; set; } = string.Empty;
 
 
-        //public static (DTOFind dtoFind, string Error) Create(string lastName, string firstName, string patronymic, string phoneNumber, string email)
-        //{
-        //    var error = string.Empty;
-        //    var dtoFind = new DTOFind(lastName, firstName, patronymic, phoneNumber, email);
-
-        //    return (dtoFind, error);
-        //}
-
-        
 
     }
 }

@@ -57,7 +57,7 @@ namespace AccountStore.API.Controllers
         [HttpGet("(id:guid)")]
         public async Task<ActionResult<Account>> GetAccountById(Guid id)
         {
-        
+
             var account = await _accountsService.GetAccById(id);
 
             if (account != null)
@@ -77,14 +77,14 @@ namespace AccountStore.API.Controllers
         /// Пример запроса:
         ///     
         ///     {
-        ///        "lastName": "",
-        ///        "firstName": "",
-        ///        "patronymic": "",
-        ///        "dateOfBbirth": "",
-        ///        "passportNumber": "",
-        ///        "phoneNumber": "",
-        ///        "email": "",
-        ///        "address": ""
+        ///        "lastName": "Степашин",
+        ///        "firstName": "Степан",
+        ///        "patronymic": "Олегович",
+        ///        "dateOfBbirth": "12/01/2001",
+        ///        "passportNumber": "4444 666666",
+        ///        "phoneNumber": "71234567890",
+        ///        "email": "mail9@yaru",
+        ///        "address": "Тула"
         ///     }
         /// 
         /// </remarks>
@@ -103,28 +103,30 @@ namespace AccountStore.API.Controllers
 
             bool result = _accountValidation.CreateAccountValidation(request, xdevice);
 
-
             if (!result) return BadRequest("Валидация не прошла");
-
 
             var account = Account.Create(Guid.NewGuid(), request.LastName, request.FirstName, request.Patronymic, request.DateOfBbirth, request.PassportNumber, request.PhoneNumber, request.Email, request.Address).account;
 
-            var userMobele = await _accountsService.GetByPhoneNumber(account);
-
-
-            if (userMobele != null)
+            
+            if (!string.IsNullOrEmpty(account.PhoneNumber))
             {
-                return BadRequest($"Есть уже аккаунт с таким номером телефона {request.PhoneNumber}");
+                var userMobele = await _accountsService.GetByPhoneNumber(account);
+
+                if (userMobele != null)
+                {
+                    return BadRequest($"Есть уже аккаунт с таким номером телефона {request.PhoneNumber}");
+                }
             }
 
-
-            var userEmail = await _accountsService.GetByEmail(account);
-
-            if (userEmail != null)
+            if (!string.IsNullOrEmpty(account.Email))
             {
-                return BadRequest($"Есть уже аккаунт с такой почтой {request.Email}");
-            }
+                var userEmail = await _accountsService.GetByEmail(account);
 
+                if (userEmail != null)
+                {
+                    return BadRequest($"Есть уже аккаунт с такой почтой {request.Email}");
+                }
+            }
 
             var bookId = await _accountsService.CreateAccount(account);
 
@@ -163,49 +165,10 @@ namespace AccountStore.API.Controllers
 
 
 
-            //var accountDto = DTOFind.Create(dtoFind.LastName, dtoFind.FirstName, dtoFind.Patronymic, dtoFind.PhoneNumber, dtoFind.Email).dtoFind;
-            //var accountFind = await _accountsService.AccountFind(accountDto);
-            //if (accountFind.Count == 0)
-            //{
-            //    return new ObjectResult(accountFind);
-            //}
-            ////return Ok($"Есть такой аккаунт {request.LastName}, {request.FirstName}, {request.Patronymic}, {request.PhoneNumber}, {request.Email}");
-            //return new ObjectResult(accountFind);
         }
 
 
-        ///// <summary>
-        ///// Поиск аккаунта
-        ///// </summary>
-        ///// <remarks>
-        ///// Пример запроса (находит всех):
-        /////     
-        /////     {
-        /////        "lastName" : "",
-        /////        "firstName" : "",
-        /////        "patronymic" : "",
-        /////        "dateOfBbirth" : "",
-        /////        "passportNumber" : "",
-        /////        "phoneNumber" : "",
-        /////        "email" : "",
-        /////        "address" : ""
-        /////     }
-        ///// 
-        ///// </remarks>
-        ///// <param name="request">Аккаунт</param>
-        ///// <returns></returns>
-        //[HttpPost("Find")]
-        //public async Task<ActionResult<List<string>>> AccountFind([FromBody] AccountsRequest request)
-        //{
-        //    var account = Account.Create(Guid.NewGuid(), request.LastName, request.FirstName, request.Patronymic, request.DateOfBbirth, request.PassportNumber, request.PhoneNumber, request.Email, request.Address).account;
-        //    var accountFind = await _accountsService.AccountFind(account);
-        //    if (accountFind.Count == 0)
-        //    {
-        //        return new ObjectResult(accountFind);
-        //    }
-        //    //return Ok($"Есть такой аккаунт {request.LastName}, {request.FirstName}, {request.Patronymic}, {request.PhoneNumber}, {request.Email}");
-        //    return new ObjectResult(accountFind);
-        //}
+
 
         /// <summary>
         /// Удаление аккаунта по Id
@@ -215,7 +178,7 @@ namespace AccountStore.API.Controllers
         [HttpDelete("(id:guid)")]
         public async Task<ActionResult<Guid>> DeleteAccount(Guid id)
         {
-            Guid idOut =await _accountsService.DeleteAccount(id);
+            Guid idOut = await _accountsService.DeleteAccount(id);
 
             if (idOut == Guid.Empty)
             {
